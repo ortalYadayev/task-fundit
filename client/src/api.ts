@@ -1,4 +1,4 @@
-import axios from "axios";
+import matchesService from "./services/matches";
 
 export type Match = {
   id: string;
@@ -33,9 +33,7 @@ export type ApiClient = {
 export const createApiClient = (): ApiClient => {
   return {
     getMatches: () => {
-      return axios
-        .get(`http://localhost:8888/api/match`)
-        .then((res) => res.data);
+      return matchesService.getMatches()
     },
   };
 };

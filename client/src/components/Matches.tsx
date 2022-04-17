@@ -1,5 +1,7 @@
 import React from "react";
-import { Match } from "./api";
+import { Match } from "../api";
+import { creditScoreFilter } from "../utils/credit_score";
+
 export const Matches = ({
   matches,
   search,
@@ -17,7 +19,7 @@ export const Matches = ({
   return (
     <ul className="matches">
       {filteredMatches.map((match) => (
-        <li key={match.id} className="match">
+        <li key={match.id} className={ `credit-score-${creditScoreFilter(match.borrower.creditScore)} match` }>
           <h5 className="title">{match.companyName}</h5>
           <div className="matchData">
             <div>
@@ -27,6 +29,9 @@ export const Matches = ({
               </p>
               <p className="userDate">
                 <b>Email:</b> {match.borrower.user.email}
+              </p>
+              <p className="userDate">
+                <b>Credit Score:</b> {match.borrower.creditScore}
               </p>
               <p className="userDate">
                 <b>Amount Request: </b> {match.amountReq}
