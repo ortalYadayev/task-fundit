@@ -1,7 +1,14 @@
 import React from "react";
 import { Matches } from "./Matches";
+import {Match} from "../api";
 
-const MatchesList = ({matches, search}) => {
+const MatchesList = ({
+    matches,
+    search,
+}: {
+    matches: Match[];
+    search: string;
+}) => {
     return (
         <div>
             {matches ? (
