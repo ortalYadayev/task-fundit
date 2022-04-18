@@ -12,13 +12,25 @@ const api = createApiClient();
 const App = () => {
   const [search, setSearch] = React.useState<string>("");
   const [matches, setMatches] = React.useState<Match[]>([]);
+  const [currentPage, setCurrentPage] = React.useState<number>(0);
+  const [totalPage, setTotalPage] = React.useState<number>(0);
 
   React.useEffect(() => {
-    async function fetchMatches() {
-      setMatches(await api.getMatches());
-    }
-    fetchMatches();
+    fetchMatches(currentPage);
   }, []);
+
+  async function fetchMatches(page: number) {
+    const response = await api.getMatches(page)
+
+    setMatches(response.data);
+    setTotalPage(Math.ceil(response.length / 5));
+  }
+
+  // @ts-ignore
+  function handlePageClick({selected: selectedPage}) {
+    setCurrentPage(selectedPage);
+    fetchMatches(selectedPage);
+  }
 
   let searchDebounce: any;
 
@@ -42,7 +54,7 @@ const App = () => {
           />
         </header>
 
-        <MatchesList matches={matches} search={search} />
+        <MatchesList matches={matches} search={search} handlePageClick={handlePageClick} totalPage={totalPage} />
       </main>
   );
 };

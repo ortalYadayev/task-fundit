@@ -2,6 +2,8 @@
   --green: #22c55e;
   --yellow: #fcd34d;
   --red: #ef4444;
+  --gray: #C6C6C6;
+  --primary: #3899ec;
 }
 
 body {
@@ -57,7 +59,6 @@ body header input::placeholder {
 }
 
 body a {
-  color: #3899ec;
   cursor: pointer;
   font-weight: 500;
   font-size: 12px;
@@ -124,4 +125,38 @@ body .matches .match footer .meta-data {
 
 .credit-score-C {
   border: 2px solid var(--red);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  cursor: pointer;
+  padding-top: 20px;
+}
+
+.pagination__link-page {
+  padding: 5px 10px;
+  color: black;
+  margin: 0 5px;
+  font-size: 13px;
+}
+
+.pagination__link {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.pagination__link-active a {
+  background: var(--primary);
+  border-radius: 15px;
+}
+
+.pagination__link-page:hover {
+  background: var(--primary);
+  border-radius: 15px;
+}
+
+.pagination__link-disabled a {
+  color: var(--gray);
 }

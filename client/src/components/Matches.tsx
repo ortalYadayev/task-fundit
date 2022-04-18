@@ -1,6 +1,7 @@
 import React from "react";
 import { Match } from "../api";
 import { creditScoreFilter } from "../utils/credit_score";
+import {filterByLabel} from "../utils/filter_by_label";
 
 export const Matches = ({
   matches,
@@ -9,12 +10,23 @@ export const Matches = ({
   matches: Match[];
   search: string;
 }) => {
-  const filteredMatches = matches.filter((t) =>
-    (
-      t.borrower.user.firstName.toLowerCase() +
-      t.borrower.user.lastName.toLowerCase()
-    ).includes(search.toLowerCase())
-  );
+
+  let filteredMatches: Match[];
+
+  if(filterByLabel(search)) {
+    filteredMatches = matches.filter((match) =>
+        match.labels?.find((label) => label.toUpperCase() === search.toUpperCase())
+    );
+  } else {
+    filteredMatches = matches.filter((match) =>
+        (
+            match.borrower.user.firstName.toLowerCase() +
+            match.borrower.user.lastName.toLowerCase() +
+            match.borrower.user.email.toLowerCase() +
+            match.companyName.toLowerCase()
+        ).includes(search.toLowerCase())
+    );
+  }
 
   return (
     <ul className="matches">

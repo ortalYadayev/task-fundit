@@ -27,13 +27,14 @@ export type Match = {
 };
 
 export type ApiClient = {
-  getMatches: () => Promise<Match[]>;
+  getMatches: (page: number) => Promise<{ data: Match[], length: number }>;
 };
 
 export const createApiClient = (): ApiClient => {
   return {
-    getMatches: () => {
-      return matchesService.getMatches()
+    getMatches: (page: number) => {
+      const mm = matchesService.getMatches(page);
+      return mm;
     },
   };
 };
