@@ -1,33 +1,87 @@
 import React from "react";
 import { Matches } from "./Matches";
-import { Match } from "../api";
 import ReactPaginate from "react-paginate";
+import { createApiClient, Match } from "../api";
+
+const api = createApiClient();
+const PAGE_SIZE = 5;
 
 const MatchesList = ({
-    matches,
     search,
-    totalPage,
-    handlePageClick,
 }: {
-    matches: Match[];
-    search: string;
-    totalPage: number;
-    handlePageClick: any
+    search: string,
 }) => {
-    const pageCount = 5;
+    const [matches, setMatches] = React.useState<Match[] | null>(null);
+    const [currentPage, setCurrentPage] = React.useState<number>(0);
+    const [totalPage, setTotalPage] = React.useState<number>(0);
+    const [approvedCount, setApprovedCount] = React.useState<number>(0);
+    const [declinedCount, setDeclinedCount] = React.useState<number>(0);
+
+    React.useEffect(() => {
+        fetchMatches(currentPage);
+    },[]);
+
+    async function fetchMatches(page: number | undefined = currentPage) {
+        const response = await api.getMatches(page)
+
+        setMatches(response.data);
+        setTotalPage(Math.ceil(response.length / PAGE_SIZE));
+
+        if(response.approvedCount) {
+            setApprovedCount(response.approvedCount);
+        }
+
+        if(response.declinedCount) {
+            setDeclinedCount(response.declinedCount);
+        }
+    }
+
+    // @ts-ignore
+    function handlePageClick({selected: selectedPage}) {
+        setCurrentPage(selectedPage);
+        fetchMatches(selectedPage);
+    }
+
+    async function approveMatch(event: any) {
+        const id = event.target.name;
+        api.approveMatch(id);
+
+        fetchMatches();
+        setApprovedCount(approvedCount + 1);
+    }
+
+    async function declineMatch(event: any) {
+        const id = event.target.name;
+        api.declineMatch(id);
+
+        fetchMatches();
+        setDeclinedCount(declinedCount + 1);
+    }
+
     return (
         <div>
             {
                 matches ? (
-                <div className="results">Showing {matches.length} results</div>
+                <div className="results">
+                    <div>
+                        Showing { matches.length } results
+                    </div>
+                    <div>
+                        Approved { approvedCount } | Declined { declinedCount }
+                    </div>
+                </div>
                 ) : null
             }
             {
                 matches ? (
-                <Matches matches={matches} search={search} />
+                <Matches matches={matches} search={search} approveMatch={approveMatch} declineMatch={declineMatch} />
                 ) : (
-                <h2>Loading...</h2>
+                <h2>
+                    No Results!
+                </h2>
             )}
+
+            {}
 
             <ReactPaginate
                 previousLabel={"Previous"}

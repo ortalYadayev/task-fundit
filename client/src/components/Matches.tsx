@@ -6,9 +6,13 @@ import {filterByLabel} from "../utils/filter_by_label";
 export const Matches = ({
   matches,
   search,
+  approveMatch,
+  declineMatch
 }: {
   matches: Match[];
   search: string;
+  approveMatch: (event: any) => {};
+  declineMatch: (event: any) => {};
 }) => {
 
   let filteredMatches: Match[];
@@ -32,7 +36,27 @@ export const Matches = ({
     <ul className="matches">
       {filteredMatches.map((match) => (
         <li key={match.id} className={ `credit-score-${creditScoreFilter(match.borrower.creditScore)} match` }>
-          <h5 className="title">{match.companyName}</h5>
+          <h5 className="title">
+            <div>
+              {match.companyName}
+            </div>
+            <div className="select-match">
+                <button
+                    className="approve-match"
+                    onClick={(event) => approveMatch(event)}
+                    name={match.id}
+                >
+                    Approve
+                </button>
+                <button
+                    className="decline-match"
+                    onClick={(event) => declineMatch(event)}
+                    name={match.id}
+                >
+                    Decline
+                </button>
+            </div>
+          </h5>
           <div className="matchData">
             <div>
               <p className="userDate">

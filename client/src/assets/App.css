@@ -26,6 +26,8 @@ body .results {
   color: #7a92a5;
   font-size: 12px;
   margin: 12px 5px;
+  display: flex;
+  justify-content: space-between;
 }
 
 body header {
@@ -145,6 +147,7 @@ body .matches .match footer .meta-data {
 .pagination__link {
   color: var(--primary);
   font-weight: bold;
+  margin: 2px;
 }
 
 .pagination__link-active a {
@@ -160,3 +163,45 @@ body .matches .match footer .meta-data {
 .pagination__link-disabled a {
   color: var(--gray);
 }
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.select-match {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.approve-match, .decline-match {
+  padding: 10px;
+  margin: 2px 2px;
+  background: transparent;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.approve-match {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.decline-match {
+  border: 2px solid var(--red);
+  color: var(--red);
+}
+
+.approve-match:hover {
+  background: var(--primary);
+  border: 2px solid var(--primary);
+  color: #fff;
+}
+
+.decline-match:hover {
+  background: var(--red);
+  border: 2px solid var(--red);
+  color: #fff;
+}
+

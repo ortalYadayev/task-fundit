@@ -5,4 +5,12 @@ const getMatches = async (page: number) => {
     return response.data;
 };
 
-export default { getMatches };
+const approveMatch = async (id: string) => {
+    await instanceAxios.post('/approves', { params: { id } });
+};
+
+const declineMatch = async (id: string) => {
+    await instanceAxios.post('/declines', { params: { id } });
+};
+
+export default { getMatches, approveMatch, declineMatch };
