@@ -1,4 +1,4 @@
-# Fundit Full Stack - Entry Exam
+# Fundit Full Stack Entry Exam
 
 **Hi there!**  
 In this exam you will extend and add new features to our matching system.
